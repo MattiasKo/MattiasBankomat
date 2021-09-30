@@ -98,8 +98,9 @@ namespace Bankomat
                         }
                     case 4:
                         {
+                            Console.WriteLine("Fixa så  man kan logga ut");
                             break;
-                            Start(user, kontoinfo);
+                          
                         }
                     default:
                         Console.WriteLine("ogiltigt val.");
