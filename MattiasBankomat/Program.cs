@@ -8,17 +8,29 @@ namespace Bankomat
         {
 
             Program P = new Program();
-            double[] VonankaKonto = { 13000000.00, 3000000.00, 500000.00, 1.00, 635460.00 };
-            double[] MattiasKonto = { 10650.50, 500.92, 1234567.89, 500.50 };
-            double[] TobiasKonto = { 50001.11, 2.22, 64852.23 };
-            double[] AnasKonto = { 50001.11, 2.22 };
-            double[] AdminKonto = { 0.01, 0.02, 0.03, 0.04, 0.05, 0.06 };
-            string[] VonankaKontoNamn = { "GoldPremium konto: ", "Räntekonto: ", "Räntekonto: ", " SparKonto: ", "Vinstkonto: " };
-            string[] MattiasKontoNamn = { "Mastercard: ", "StudentKonto", "Sparkonto: ", "Aktier: " };
-            string[] TobiasKontoNamn = { "Lönekonto ", "Sparkonto ", "Fonder: " };
-            string[] AnasKontoNamn = { "kontokort: ", "Sparkonto: " };
-            string[] AdminKontoNamn = { "konto1: ", "konto2: ", "konto3: ", "konto4: ", "konto5: ", "konto6: " };
-      
+
+            double[][] KontonArray = new double[5][];
+
+            KontonArray[0] = new double[] { 13000000.00, 3000000.00, 500000.00, 1.00, 635460.00 };
+            KontonArray[1] = new double[] { 10650.50, 500.92, 1234567.89, 500.50 };
+            KontonArray[2] = new double[] { 50001.11, 2.22, 64852.23 };
+            KontonArray[3] = new double[] { 50001.11, 2.22 };
+            KontonArray[4] = new double[] { 0.01, 0.02, 0.03, 0.04, 0.05, 0.06 };
+
+            string[][] Kontonamn = new string[5][];
+
+            Kontonamn[0] = new string[] { "GoldPremium konto: ", "Räntekonto: ", "Räntekonto: ", " SparKonto: ", "Vinstkonto: " };
+            Kontonamn[1] = new string[] { "Mastercard: ", "StudentKonto", "Sparkonto: ", "Aktier: " };
+            Kontonamn[2] = new string[] { "Lönekonto ", "Sparkonto ", "Fonder: " };
+            Kontonamn[3] = new string[] { "kontokort: ", "Sparkonto: " };
+            Kontonamn[4] = new string[] { "konto1: ", "konto2: ", "konto3: ", "konto4: ", "konto5: ", "konto6: " };
+
+            Start(KontonArray, Kontonamn);
+        }
+            public static void Start(double [][]KontonArray,string[][] Kontonamn)
+            {
+
+            
             byte Tries = 3;
 
             Console.WriteLine("Hej och välkommen till Mattias bankomat!");
@@ -32,26 +44,26 @@ namespace Bankomat
                 int Pincode = int.Parse(Console.ReadLine());
 
 
-                switch (Användare + Pincode)  //använde en switch case för både användarnamn och pinkod för att logga in. sedan visa kontot som är inloggat.
+                switch (Användare + Pincode)  //använde en switch case för både användarnamn och pinkod för att logga in. sedan visa kontot som är inloggat. Switch har en default som gör det enkelt om inlogg är fel.
                 {
                     case "VONANKA4321":
-                        konto(Användare, VonankaKonto, Pincode, VonankaKontoNamn);
+                        konto(0,Användare, KontonArray, Pincode, Kontonamn);
                         break;
 
                     case "MATTIAS0000":
-                        konto(Användare, MattiasKonto, Pincode, MattiasKontoNamn);
+                        konto(1,Användare, KontonArray, Pincode, Kontonamn);
                         break;
 
                     case "TOBIAS9034":
-                        konto(Användare, TobiasKonto, Pincode, TobiasKontoNamn);
+                        konto(2,Användare, KontonArray, Pincode, Kontonamn);
                         break;
 
                     case "ANAS3535":
-                        konto(Användare, AnasKonto, Pincode, AnasKontoNamn);
+                        konto(3,Användare, KontonArray, Pincode, Kontonamn);
                         break;
 
                     case "ADMIN1234":
-                        konto(Användare, AdminKonto, Pincode, AdminKontoNamn);
+                        konto(4,Användare, KontonArray, Pincode, Kontonamn);
                         break;
 
                     default:
@@ -65,7 +77,7 @@ namespace Bankomat
             } while (Tries > 0);
             Console.WriteLine("Stänger ner.");
         }
-        public static void konto(string user, double[] kontoinfo, int Pincode, string[] kontoNamn)
+        public static void konto(byte ID, string user, double[][] kontonArray, int Pincode, string[][] kontoNamn)
         {
             bool LogIn = true;
             do
@@ -79,7 +91,7 @@ namespace Bankomat
                     case 1:
                         {
                             Console.Clear();
-                            VisaKonton(user, kontoinfo, kontoNamn);
+                            VisaKonton(ID,user, kontonArray, kontoNamn);
                             Console.WriteLine("Tryck enter för att fortsätta");
                             while (Console.ReadKey().Key != ConsoleKey.Enter) { };
                             Console.Clear();
@@ -87,18 +99,21 @@ namespace Bankomat
                         }
                     case 2:
                         {
-                            Transfer(user, kontoinfo, Pincode, kontoNamn);
+                            Console.Clear();
+                            Transfer(ID,user, kontonArray, Pincode, kontoNamn);
                             break;
 
                         }
                     case 3:
                         {
-                            TaUt(user, kontoinfo, Pincode, kontoNamn);
+                            Console.Clear();
+                            TaUt(ID,user, kontonArray, Pincode, kontoNamn);
                             break;
                         }
                     case 4:
                         {
-                            Console.WriteLine("Fixa så  man kan logga ut");
+                            Console.Clear();
+                            Start(kontonArray, kontoNamn);
                             break;
                           
                         }
@@ -111,11 +126,11 @@ namespace Bankomat
 
             } while (LogIn == true);
         }
-        public static void Transfer(string user, double[] kontoinfo, int Pincode, string[] kontoNamn)
+        public static void Transfer(byte ID,string user, double[][] kontoinfo, int Pincode, string[][] kontoNamn)
         {
             while (true)
             {
-                VisaKonton(user, kontoinfo, kontoNamn);
+                VisaKonton(ID,user, kontoinfo, kontoNamn);
 
                 double Amount;
                 byte ToAccount;
@@ -129,11 +144,11 @@ namespace Bankomat
                     {
                         Console.WriteLine("Felaktigt kontonummer!");
                     }
-                    if (FromAccount >= kontoinfo.Length | FromAccount < 0)
+                    if (FromAccount > kontoinfo[ID].Length | FromAccount < 0)
                     {
                         Console.WriteLine("Det kontot finns inte.");
                     }
-                } while (APar == false | (FromAccount >= kontoinfo.Length | FromAccount < 0));
+                } while (APar == false | (FromAccount > kontoinfo[ID].Length | FromAccount < 0));
 
                 do
                 {
@@ -143,7 +158,7 @@ namespace Bankomat
                     {
                         Console.WriteLine("Felaktigt summa!");
                     }
-                    if (Amount > kontoinfo[FromAccount])
+                    if (Amount > kontoinfo[ID][FromAccount])
                     {
                         Console.WriteLine("Inte tillräckligt med pengar i det kontot, Försök igen!");
                     }
@@ -151,32 +166,32 @@ namespace Bankomat
                     {
                         Console.WriteLine("Felaktigt summa!");
                     }
-                } while (Amount > kontoinfo[FromAccount] || Amount < 0);
+                } while (APar == false | Amount > kontoinfo[ID][FromAccount] || Amount < 0);
 
                 do
                 {
                     Console.WriteLine("Till vilket konto?");
                     APar = byte.TryParse(Console.ReadLine(), out ToAccount);
-                    if (APar == false | ToAccount >= kontoinfo.Length | ToAccount < 0)
+                    if (APar == false | ToAccount > kontoinfo[ID].Length | ToAccount < 0)
                     {
                         Console.WriteLine("Felaktigt kontonummer!");
                     }
-                } while (APar == false | ToAccount >= kontoinfo.Length | ToAccount < 0);
+                } while (APar == false | ToAccount > kontoinfo[ID].Length | ToAccount < 0);
 
-                kontoinfo[FromAccount] = kontoinfo[FromAccount] - Amount;
-                kontoinfo[ToAccount] = kontoinfo[ToAccount] + Amount;
+                kontoinfo[ID][FromAccount] = kontoinfo[ID][FromAccount] - Amount;
+                kontoinfo[ID][ToAccount] = kontoinfo[ID][ToAccount] + Amount;
                 Console.Clear();
-                VisaKonton(user, kontoinfo, kontoNamn);
+                VisaKonton(ID,user, kontoinfo, kontoNamn);
                 Console.WriteLine("Tryck enter för att fortsätta");
                 while (Console.ReadKey().Key != ConsoleKey.Enter) { };
                 Console.Clear();
-                konto(user, kontoinfo, Pincode, kontoNamn);
+                konto(ID,user, kontoinfo, Pincode, kontoNamn);
 
             }
         }
-        public static void TaUt(string user, double[] kontoinfo, int Pincode, string[] kontoNamn)
+        public static void TaUt(byte ID, string user, double[][] kontoinfo, int Pincode, string[][] kontoNamn)
         {
-            VisaKonton(user, kontoinfo, kontoNamn);
+            VisaKonton(ID,user, kontoinfo, kontoNamn);
             double Amount;
             byte FromAccount;
             bool APar;
@@ -188,11 +203,11 @@ namespace Bankomat
                 {
                     Console.WriteLine("Felaktigt kontonummer!");
                 }
-                if (FromAccount > kontoinfo.Length | FromAccount < 0)
+                if (FromAccount > kontoinfo[ID].Length | FromAccount < 0)
                 {
                     Console.WriteLine("Det kontot finns inte.");
                 }
-            } while (APar == false | (FromAccount >= kontoinfo.Length | FromAccount < 0));
+            } while (APar == false | (FromAccount >kontoinfo[ID].Length | FromAccount < 0));
             do
             {
                 Console.WriteLine("Hur mycket vill du ta ut?");
@@ -201,11 +216,11 @@ namespace Bankomat
                 {
                     Console.WriteLine("Felaktigt summa!");
                 }
-                if (Amount > kontoinfo[FromAccount])
+                if (Amount > kontoinfo[ID][FromAccount])
                 {
                     Console.WriteLine("Inte tillräckligt med pengar i det kontot, Försök igen!");
                 }
-            } while (Amount > kontoinfo[FromAccount] || Amount < 0);
+            } while (Amount > kontoinfo[ID][FromAccount] || Amount < 0);
 
             int TryPinCode;
 
@@ -213,9 +228,9 @@ namespace Bankomat
             APar = int.TryParse(Console.ReadLine(), out TryPinCode);
             if (TryPinCode == Pincode)
             {
-                kontoinfo[FromAccount] = kontoinfo[FromAccount] - Amount;
+                kontoinfo[ID][FromAccount] = kontoinfo[ID][FromAccount] - Amount;
 
-                Console.WriteLine("Du har tagit ut " + Amount + "kr från " + kontoNamn[FromAccount] + ": " + kontoinfo[FromAccount]);
+                Console.WriteLine("Du har tagit ut " + Amount + "kr från " + kontoNamn[ID][FromAccount] + ": " + kontoinfo[ID][FromAccount]);
                 Thread.Sleep(1500);
                 Console.Clear();
             }
@@ -227,23 +242,20 @@ namespace Bankomat
             }
 
 
-            konto(user, kontoinfo, Pincode, kontoNamn);
+            konto(ID,user, kontoinfo, Pincode, kontoNamn);
         }
-        public static void VisaKonton(string user, double[] kontoinfo, string[] kontoNamn)
+        public static void VisaKonton(byte ID,string user, double[][] kontoinfo, string[][] kontoNamn)
         {
 
             {
-                for (int i = 0; i < kontoinfo.Length; i++)
+                for (int i = 0; i < kontoinfo[ID].Length; i++)
                 {
-                    Console.Write(i + ": " + kontoNamn[i] + kontoinfo[i]);
+                    Console.Write(i + ": " + kontoNamn[ID][i] + kontoinfo[ID][i]);
                     Console.WriteLine();
                 }
             }
         }
-        public static void Start(string user, double[] kontoinfo)
-        {
-
-        }
+      
     
             
 
