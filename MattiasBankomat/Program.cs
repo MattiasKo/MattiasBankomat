@@ -80,6 +80,7 @@ namespace Bankomat
         public static void konto(byte ID, string user, double[][] kontonArray, int Pincode, string[][] kontoNamn)
         {
             bool LogIn = true;
+            Console.Clear();
             do
             {
 
