@@ -1,4 +1,5 @@
-﻿using System;
+﻿//Mattias Kokkonen SUT21
+using System;
 using System.Threading;
 namespace Bankomat
 {
