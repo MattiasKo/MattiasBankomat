@@ -70,31 +70,31 @@ namespace Bankomat
                 {
                     case "VONANKA4321":
                         konto(0, Användare, KontonArray, Pincode, Kontonamn);   //Alla användare har ett ID nummer för att det ska funka med rätt array.
-                        return;
+                      
                         break;
 
                     case "MATTIAS0000":
                         
                         konto(1, Användare, KontonArray, Pincode, Kontonamn);
-                        return;
+                 
                         break;
 
                     case "TOBIAS9034":
                         
                         konto(2, Användare, KontonArray, Pincode, Kontonamn);
-                        return;
+      
                         break;
 
                     case "ANAS3535":
                         
                         konto(3, Användare, KontonArray, Pincode, Kontonamn);
-                        return;
+                    
                         break;
 
                     case "ADMIN1234":
                         
                         konto(4, Användare, KontonArray, Pincode, Kontonamn);
-                        return;
+                     
                         break;
 
                     default:
@@ -103,6 +103,10 @@ namespace Bankomat
                 }
             } while (Tries > 0);
             Console.WriteLine("Stänger ner.");
+            System.Environment.Exit(1);
+
+
+
         }
         static bool Login(string Användare, string Pincode)
         {
@@ -204,8 +208,6 @@ namespace Bankomat
         }
         public static void Transfer(byte ID, string user, double[][] kontoinfo, string Pincode, string[][] kontoNamn)
         {
-            while (true)
-            {
                 VisaKonton(ID, user, kontoinfo, kontoNamn);
 
                 double Amount;
@@ -264,7 +266,7 @@ namespace Bankomat
                 while (Console.ReadKey().Key != ConsoleKey.Enter) { };
                 konto(ID, user, kontoinfo, Pincode, kontoNamn);
 
-            }
+           
         }
         public static void TaUt(byte ID, string user, double[][] kontoinfo, string Pincode, string[][] kontoNamn)
         {
